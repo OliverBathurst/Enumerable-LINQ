@@ -56,17 +56,17 @@ public class Enumerable<T> implements List<T>{
 			}
 		}
 		return result;
-    }
+	}
 	
 	public Enumerable<T> where(EnumerableWhere<T> functionalInterface) {
 		Enumerable<T> result = new Enumerable<T>();
 		for(T item: list) {
-            if(functionalInterface.where(item)) {
-                result.add(item);
-            }
-        }
-        return result;
-    }
+			if(functionalInterface.where(item)) {
+				result.add(item);
+			}
+		}
+		return result;
+	}
 	
 	public Enumerable<T> takeWhile(EnumerableWhere<T> functionalInterface) {
 		Enumerable<T> result = new Enumerable<T>();        
@@ -78,17 +78,17 @@ public class Enumerable<T> implements List<T>{
 			}
 		}       
 		return result;
-    }	
+	}	
 	
 	public <S> Enumerable<T> ofType(Class<S> classType){
 		Enumerable<T> result = new Enumerable<T>();
 		for(T item: list) {
 			if(item != null) {
-	            if(classType.isAssignableFrom(item.getClass())) {
-	            	result.add(item);
-	            }
+				if(classType.isAssignableFrom(item.getClass())) {
+					result.add(item);
+				}
 			}
-        }
+		}
 		return result;
 	}
 	
