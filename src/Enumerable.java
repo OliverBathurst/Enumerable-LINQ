@@ -1,4 +1,3 @@
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -22,7 +21,7 @@ public class Enumerable<T> implements List<T>{
 	}
 	
 	public Enumerable(List<T> list) {
-		this.list = list;
+		this.list = new ArrayList<T>(list);
 	}
 	
 	public Enumerable<T> skip(int numberToSkip) {
@@ -30,18 +29,17 @@ public class Enumerable<T> implements List<T>{
 				subList(numberToSkip, size()).toList());
 	}	
 	
-	public Enumerable<T> skipWhile(EnumerableWhere<T> functionalInterface) {
-		Enumerable<T> result = new Enumerable<>(list);				
+	public Enumerable<T> skipWhile(EnumerableWhere<T> functionalInterface) {		
 		for(int i = 0; i < size(); i++) {
 			if(!functionalInterface.where(get(i))) {
 				return subList(i, size());                
 			}
 		}        
-		return result;
+		return this;
 	}	
 	
 	public Enumerable<T> take(int numberToTake) {
-		return new Enumerable<T>(subList(0, numberToTake).toList());
+		return subList(0, numberToTake);
 	}	
 	
 	public T orReturn(T defaultValue) {
@@ -49,13 +47,7 @@ public class Enumerable<T> implements List<T>{
 	}	
 			
 	public Enumerable<T> select(EnumerableWhere<T> functionalInterface) {
-		Enumerable<T> result = new Enumerable<T>();
-		for(T item: list) {
-			if(functionalInterface.where(item)) {
-				result.add(item);
-			}
-		}
-		return result;
+		return where(functionalInterface);
 	}
 	
 	public Enumerable<T> where(EnumerableWhere<T> functionalInterface) {
@@ -153,7 +145,7 @@ public class Enumerable<T> implements List<T>{
 	}
 	
 	public T elementAtOrDefault(int index){
-		if(index >= size()) {
+		if(index >= size() || 0 > index) {
 			return defaultValue;
 		}else{
 			return get(index);
@@ -198,16 +190,6 @@ public class Enumerable<T> implements List<T>{
 		}
 	}
 	
-	public BigDecimal sum() {
-	    BigDecimal sum = new BigDecimal(0);
-	    for (T value : list) {
-	    	if(value instanceof Number) {
-	    		sum.add(BigDecimal.valueOf(((Number)value).doubleValue()));
-	    	}
-	    }
-	    return sum;
-	}
-	
 	public boolean add(T item) {		
 		return list.add(item);
 	}
@@ -242,7 +224,7 @@ public class Enumerable<T> implements List<T>{
 	}
 	
 	public Enumerable<T> subList(int fromIndex, int toIndex) {
-		return new Enumerable<T>(subList(fromIndex, toIndex).toList());
+		return new Enumerable<T>(list.subList(fromIndex, toIndex));
 	}
 	
 	public T first() {
