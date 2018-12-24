@@ -31,19 +31,17 @@ public class Enumerable<T> implements List<T>{
 	}	
 	
 	public Enumerable<T> skipWhile(EnumerableWhere<T> functionalInterface) {
-		Enumerable<T> result = new Enumerable<>(list);
-				
-        for(int i = 0; i < size(); i++) {
-            if(!functionalInterface.where(get(i))) {
-            	return subList(i, size());                
-            }
-        }
-        
-        return result;
+		Enumerable<T> result = new Enumerable<>(list);				
+		for(int i = 0; i < size(); i++) {
+			if(!functionalInterface.where(get(i))) {
+				return subList(i, size());                
+			}
+		}        
+		return result;
 	}	
 	
 	public Enumerable<T> take(int numberToTake) {
-		return new Enumerable<T>(subList(0, numberToTake - 1).toList());
+		return new Enumerable<T>(subList(0, numberToTake).toList());
 	}	
 	
 	public T orReturn(T defaultValue) {
@@ -51,18 +49,18 @@ public class Enumerable<T> implements List<T>{
 	}	
 			
 	public Enumerable<T> select(EnumerableWhere<T> functionalInterface) {
-        Enumerable<T> result = new Enumerable<T>();
-        for(T item: list) {
-            if(functionalInterface.where(item)) {
-                result.add(item);
-            }
-        }
-        return result;
+		Enumerable<T> result = new Enumerable<T>();
+		for(T item: list) {
+			if(functionalInterface.where(item)) {
+				result.add(item);
+			}
+		}
+		return result;
     }
 	
 	public Enumerable<T> where(EnumerableWhere<T> functionalInterface) {
-        Enumerable<T> result = new Enumerable<T>();
-        for(T item: list) {
+		Enumerable<T> result = new Enumerable<T>();
+		for(T item: list) {
             if(functionalInterface.where(item)) {
                 result.add(item);
             }
@@ -71,15 +69,15 @@ public class Enumerable<T> implements List<T>{
     }
 	
 	public Enumerable<T> takeWhile(EnumerableWhere<T> functionalInterface) {
-        Enumerable<T> result = new Enumerable<T>();        
-        for(T item: list) {
-            if(functionalInterface.where(item)) {
-                result.add(item);
-            } else {
-            	return result;
-            }
-        }       
-        return result;
+		Enumerable<T> result = new Enumerable<T>();        
+		for(T item: list) {
+			if(functionalInterface.where(item)) {
+				result.add(item);
+			}else{
+				return result;
+			}
+		}       
+		return result;
     }	
 	
 	public <S> Enumerable<T> ofType(Class<S> classType){
@@ -222,7 +220,7 @@ public class Enumerable<T> implements List<T>{
 		int index = indexOf(item);
 		if(index == -1) {
 			return null;
-		} else {
+		}else{
 			return get(index);
 		}		
 	}
